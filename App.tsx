@@ -1,4 +1,9 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
+
+import AppLoading from 'expo-app-loading';
+
+import { ThemeProvider } from 'styled-components/native';
 
 import {
   useFonts,
@@ -7,10 +12,9 @@ import {
   WorkSans_600SemiBold,
 } from '@expo-google-fonts/work-sans';
 
-import AppLoading from 'expo-app-loading';
-import { ThemeProvider } from 'styled-components/native';
-import { StatusBar } from 'react-native';
 import { Routes } from './src/routes';
+
+import { AppProvider } from './src/hooks';
 
 import theme from './src/styles/theme';
 
@@ -32,7 +36,9 @@ export default function App() {
         translucent
         backgroundColor="transparent"
       />
-      <Routes />
+      <AppProvider>
+        <Routes />
+      </AppProvider>
     </ThemeProvider>
   );
 }
