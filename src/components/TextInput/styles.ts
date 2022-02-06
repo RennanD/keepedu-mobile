@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components/native';
 
 interface InputContainerProps {
   isFocused: boolean;
+  isErrored: boolean;
 }
 
 export const Container = styled.View`
@@ -20,6 +21,16 @@ export const Label = styled.Text`
   `}
 `;
 
+export const Error = styled.Text`
+  font-size: 14px;
+  margin-left: 10px;
+
+  ${({ theme }) => css`
+    font-family: ${theme.fonts.regular};
+    color: ${theme.colors.attention};
+  `}
+`;
+
 export const InputContainer = styled.View<InputContainerProps>`
   flex-direction: row;
   border-radius: 4px;
@@ -35,6 +46,12 @@ export const InputContainer = styled.View<InputContainerProps>`
   align-items: center;
 
   padding: 0 16px;
+
+  ${({ theme, isErrored }) =>
+    isErrored &&
+    css`
+      border-color: ${theme.colors.attention};
+    `}
 `;
 
 export const RNTextInput = styled.TextInput`

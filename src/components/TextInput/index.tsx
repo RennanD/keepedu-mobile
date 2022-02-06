@@ -5,16 +5,18 @@ import { Feather } from '@expo/vector-icons';
 import { TextInputProps as RNTextInputProps } from 'react-native';
 
 import { useTheme } from 'styled-components';
-import { Container, Label, InputContainer, RNTextInput } from './styles';
+import { Container, Label, Error, InputContainer, RNTextInput } from './styles';
 
 export interface TextInputProps extends RNTextInputProps {
   icon: React.ComponentProps<typeof Feather>['name'];
   label: string;
+  error?: string;
 }
 
 export function TextInput({
   icon,
   label,
+  error = '',
   value,
   ...rest
 }: TextInputProps): JSX.Element {
@@ -36,8 +38,10 @@ export function TextInput({
 
   return (
     <Container>
-      <Label>{label}</Label>
-      <InputContainer isFocused={isFocused}>
+      <Label>
+        {label} <Error>{error}</Error>
+      </Label>
+      <InputContainer isErrored={!!error} isFocused={isFocused}>
         <Feather
           name={icon}
           size={24}

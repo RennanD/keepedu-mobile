@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { logoImage } from '../../assets';
 import { Button } from '../../components/Button';
 import { TextInput } from '../../components/TextInput';
+import { useAuth } from '../../hooks/auth';
 
 import {
   Container,
@@ -15,7 +16,30 @@ import {
 
 export function SignIn(): JSX.Element {
   const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const { singIn } = useAuth();
+
+  async function handleSignIn() {
+    setEmailError('');
+    setPasswordError('');
+
+    if (!email) {
+      setEmailError('O e-mail é obrigatório');
+      return;
+    }
+
+    if (!password) {
+      setPasswordError('A senha é obrigatória');
+
+      return;
+    }
+
+    await singIn({ email, password });
+  }
 
   return (
     <Container>
@@ -30,6 +54,7 @@ export function SignIn(): JSX.Element {
           autoCorrect={false}
           value={email}
           onChangeText={setEmail}
+          error={emailError}
         />
         <TextInput
           placeholder="Digite sua senha"
@@ -40,10 +65,13 @@ export function SignIn(): JSX.Element {
           secureTextEntry
           value={password}
           onChangeText={setPassword}
+          error={passwordError}
         />
 
         <ButtonContainer>
-          <Button icon="log-in">Entrar</Button>
+          <Button onPress={handleSignIn} icon="log-in">
+            Entrar
+          </Button>
         </ButtonContainer>
 
         <SingInInfo>

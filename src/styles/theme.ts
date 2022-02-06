@@ -8,6 +8,9 @@ export default {
 
     background_color: '#fff',
     shape: '#F7F6F9',
+
+    attention: '#FF595E',
+    success: '#2ED573',
   },
 
   fonts: {
