@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
+import { Notifications } from '../screens/Notifications';
 import { Profile } from '../screens/Profile';
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -43,7 +44,7 @@ export function AppRoutes(): JSX.Element {
       />
       <Screen
         name="Notifications"
-        component={View}
+        component={Notifications}
         options={{
           tabBarIcon: ({ size, color }) => (
             <Feather name="bell" size={size} color={color} />

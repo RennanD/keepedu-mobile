@@ -11,7 +11,7 @@ export function GoBackButton(): JSX.Element {
   const { goBack } = useNavigation();
 
   return (
-    <BorderlessButton hitSlop={5} onPress={goBack}>
+    <BorderlessButton onPress={goBack}>
       <Feather name="chevron-left" size={30} color={theme.colors.label} />
     </BorderlessButton>
   );

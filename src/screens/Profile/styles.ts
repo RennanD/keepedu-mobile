@@ -14,6 +14,8 @@ export const AvatarContainer = styled.View`
   border: 3px solid ${({ theme }) => theme.colors.placeholder};
   padding: 30px;
 
+  background-color: ${({ theme }) => theme.colors.shape};
+
   align-items: center;
   justify-content: center;
   position: relative;
