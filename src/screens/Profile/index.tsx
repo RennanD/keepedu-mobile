@@ -46,7 +46,7 @@ const options: OptionProps[] = [
 ];
 
 export function Profile(): JSX.Element {
-  const { user } = useAuth();
+  const { user, singOut } = useAuth();
   const theme = useTheme();
 
   return (
@@ -71,7 +71,7 @@ export function Profile(): JSX.Element {
 
       <ProfileMenu showsVerticalScrollIndicator={false}>
         {options.map(option => (
-          <ProfileOption>
+          <ProfileOption key={option.title}>
             <Feather
               name={option.icon}
               size={26}
@@ -92,7 +92,7 @@ export function Profile(): JSX.Element {
           </ProfileOption>
         ))}
 
-        <ProfileOption>
+        <ProfileOption onPress={singOut}>
           <Feather name="log-out" size={26} color={theme.colors.attention} />
           <ProfileOptionText>
             Sair{'\n'}

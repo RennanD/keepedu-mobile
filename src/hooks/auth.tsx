@@ -11,6 +11,7 @@ interface AuthContextData {
   user: UserData;
   loadingUser: boolean;
   singIn: (singInData: SignInData) => Promise<void>;
+  singOut: () => Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -43,6 +44,11 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     await AsyncStorage.setItem('@keepedu:user', JSON.stringify(userData));
   }
 
+  async function handleSignOut() {
+    setUser({} as UserData);
+    await AsyncStorage.removeItem('@keepedu:user');
+  }
+
   useEffect(() => {
     async function loadUser() {
       setLoadingUser(true);
@@ -59,7 +65,14 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ singIn: handleSingIn, user, loadingUser }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loadingUser,
+        singIn: handleSingIn,
+        singOut: handleSignOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
