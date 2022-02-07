@@ -5,6 +5,15 @@ import { SignIn } from '../screens/SignIn';
 
 const { Navigator, Screen } = createStackNavigator();
 
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList {
+      SignIn: undefined;
+      Intro: undefined;
+    }
+  }
+}
+
 export function AuthRoutes(): JSX.Element {
   return (
     <Navigator

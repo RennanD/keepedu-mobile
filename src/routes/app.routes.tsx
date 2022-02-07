@@ -1,16 +1,64 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { Feather } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+import { useTheme } from 'styled-components';
+import { Profile } from '../screens/Profile';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList {
+      Home: undefined;
+      Notifications: undefined;
+      Profile: undefined;
+    }
+  }
+}
 
 export function AppRoutes(): JSX.Element {
+  const theme = useTheme();
+
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.placeholder,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: getBottomSpace() + 60,
+        },
       }}
     >
-      <Screen name="Login" component={View} />
+      <Screen
+        name="Home"
+        component={View}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Screen
+        name="Notifications"
+        component={View}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Feather name="bell" size={size} color={color} />
+          ),
+        }}
+      />
+      <Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ size, color }) => (
+            <Feather name="user" size={size} color={color} />
+          ),
+        }}
+      />
     </Navigator>
   );
 }
