@@ -12,8 +12,7 @@ export const Header = styled.View`
   padding: 24px;
   width: 100%;
   padding-top: ${getStatusBarHeight() + 40}px;
-
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const Avatar = styled.Image`
@@ -37,10 +36,14 @@ export const Greetings = styled.Text`
 `;
 
 export const Info = styled.Text`
-  font-size: 18px;
+  font-size: 14px;
 
   ${({ theme }) => css`
     color: ${theme.colors.label};
     font-family: ${theme.fonts.regular};
   `}
+`;
+
+export const Content = styled.View`
+  padding: 0 24px;
 `;

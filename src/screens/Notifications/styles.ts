@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const NotificationCard = styled.TouchableOpacity`
-  padding: 12px;
+  padding: 20px;
   background-color: ${({ theme }) => theme.colors.background_color};
   border-radius: 8px;
 

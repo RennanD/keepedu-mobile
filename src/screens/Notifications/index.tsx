@@ -34,9 +34,6 @@ export function Notifications(): JSX.Element {
       <FlatList
         data={notifications}
         keyExtractor={notification => notification.id}
-        contentContainerStyle={{
-          padding: 24,
-        }}
         renderItem={({ item }) => (
           <NotificationCard>
             <NotificationHeader>
