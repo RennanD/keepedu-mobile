@@ -4,15 +4,15 @@ import { Feather } from '@expo/vector-icons';
 
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useTheme } from 'styled-components';
-
-// import { Container } from './styles';
+import { useNavigation } from '@react-navigation/native';
 
 export function GoBackButton(): JSX.Element {
   const theme = useTheme();
+  const { goBack } = useNavigation();
 
   return (
-    <BorderlessButton>
-      <Feather name="chevron-left" size={28} color={theme.colors.label} />
+    <BorderlessButton hitSlop={5} onPress={goBack}>
+      <Feather name="chevron-left" size={30} color={theme.colors.label} />
     </BorderlessButton>
   );
 }

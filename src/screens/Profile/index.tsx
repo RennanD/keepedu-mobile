@@ -1,16 +1,16 @@
-import { Feather } from '@expo/vector-icons';
 import React from 'react';
+
+import { Feather } from '@expo/vector-icons';
+
 import { useTheme } from 'styled-components';
-import { GoBackButton } from '../../components/GoBackButton';
+
 import { useAuth } from '../../hooks/auth';
-import shadow from '../../styles/shadow';
 
 import {
   Container,
-  HeaderProfile,
-  HeaderTitle,
   AvatarContainer,
   Avatar,
+  EditAvatarButton,
   UserInfoContainer,
   UserName,
   UserEmail,
@@ -19,6 +19,7 @@ import {
   ProfileOptionText,
   ProfileOptionDescription,
 } from './styles';
+import { ScreenHeader } from '../../components/ScreenHeader';
 
 type OptionProps = {
   title: string;
@@ -39,7 +40,7 @@ const options: OptionProps[] = [
   },
   {
     title: 'Treinamentos',
-    description: 'Treinamentos de uso do sistema',
+    description: 'Treinamentos de uso do app',
     icon: 'monitor',
   },
 ];
@@ -50,14 +51,18 @@ export function Profile(): JSX.Element {
 
   return (
     <Container>
-      <HeaderProfile>
-        <GoBackButton />
-        <HeaderTitle>Perfil do Aluno</HeaderTitle>
-      </HeaderProfile>
+      <ScreenHeader title="Perfil do Aluno" />
 
       <UserInfoContainer>
         <AvatarContainer>
           <Avatar source={{ uri: user.avatar }} />
+          <EditAvatarButton>
+            <Feather
+              name="camera"
+              size={16}
+              color={theme.colors.background_color}
+            />
+          </EditAvatarButton>
         </AvatarContainer>
 
         <UserName>{user.name}</UserName>
@@ -66,7 +71,7 @@ export function Profile(): JSX.Element {
 
       <ProfileMenu showsVerticalScrollIndicator={false}>
         {options.map(option => (
-          <ProfileOption style={shadow}>
+          <ProfileOption>
             <Feather
               name={option.icon}
               size={26}
@@ -87,7 +92,7 @@ export function Profile(): JSX.Element {
           </ProfileOption>
         ))}
 
-        <ProfileOption style={shadow}>
+        <ProfileOption>
           <Feather name="log-out" size={26} color={theme.colors.attention} />
           <ProfileOptionText>
             Sair{'\n'}

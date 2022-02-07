@@ -1,4 +1,3 @@
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
@@ -8,31 +7,9 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background_color};
 `;
 
-export const HeaderProfile = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 24px;
-  width: 100%;
-  padding-top: ${getStatusBarHeight() + 40}px;
-
-  margin-bottom: 20px;
-`;
-
-export const HeaderTitle = styled.Text`
-  font-size: 20px;
-
-  margin-left: 20px;
-  align-self: center;
-
-  ${({ theme }) => css`
-    color: ${theme.colors.label};
-    font-family: ${theme.fonts.bold};
-  `}
-`;
-
 export const AvatarContainer = styled.View`
-  height: 140px;
-  width: 140px;
+  height: 150px;
+  width: 150px;
   border-radius: 75px;
   border: 3px solid ${({ theme }) => theme.colors.placeholder};
   padding: 30px;
@@ -45,9 +22,25 @@ export const AvatarContainer = styled.View`
 `;
 
 export const Avatar = styled.Image`
-  height: 130px;
-  width: 130px;
+  height: 140px;
+  width: 140px;
   border-radius: 70px;
+`;
+
+export const EditAvatarButton = styled.TouchableOpacity`
+  position: absolute;
+
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+
+  bottom: -5px;
+  right: 10px;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const UserInfoContainer = styled.View`
@@ -85,10 +78,13 @@ export const ProfileMenu = styled.ScrollView.attrs({
 export const ProfileOption = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  padding: 20px;
+  padding: 12px;
   background-color: ${({ theme }) => theme.colors.background_color};
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+
+  border-bottom-width: 0.8px;
+  border-color: ${({ theme }) => theme.colors.shape};
 `;
 
 export const ProfileOptionText = styled.Text`

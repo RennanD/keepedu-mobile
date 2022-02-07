@@ -1,6 +1,7 @@
 export default {
   colors: {
     primary: '#0052CC',
+    primary_bold: '#1C468A',
 
     text: '#000',
     label: '#666666',
