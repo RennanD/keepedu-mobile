@@ -1,8 +1,12 @@
-import { Feather } from '@expo/vector-icons';
+import React from 'react';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
+
+import { Feather } from '@expo/vector-icons';
+
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { useTheme } from 'styled-components';
+import { Home } from '../screens/Home';
 import { Notifications } from '../screens/Notifications';
 import { Profile } from '../screens/Profile';
 
@@ -35,7 +39,7 @@ export function AppRoutes(): JSX.Element {
     >
       <Screen
         name="Home"
-        component={View}
+        component={Home}
         options={{
           tabBarIcon: ({ size, color }) => (
             <Feather name="home" size={size} color={color} />
