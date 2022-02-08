@@ -1,23 +1,38 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 
 import { FlatList } from 'react-native';
+import { useTheme } from 'styled-components';
 import shadow from '../../styles/shadow';
 import {
   Container,
-  Content,
+  CurrentCoursesContent,
   Title,
   CourseCard,
   CourseThumbnail,
   CourseCardBody,
   CourseTitle,
+  OldCoursesContent,
+  OldCourseItem,
+  OldCourseTitle,
+  OldCoursePeriod,
+  OldCoursesIcon,
 } from './styles';
 
 const courses = [
   {
     id: '1',
     thumbnail:
-      'https://res.cloudinary.com/rennand/image/upload/v1644287131/hero-1_lfimib.png',
-    title: '8º Ano Fundamental',
+      'https://res.cloudinary.com/rennand/image/upload/v1644287143/hero-2_b0jmst.png',
+    title: '3ª Série - Médio',
+    workload: '',
+  },
+
+  {
+    id: '2',
+    thumbnail:
+      'https://res.cloudinary.com/rennand/image/upload/v1644287143/hero-2_b0jmst.png',
+    title: 'Supermed Advanced',
     workload: '',
   },
 ];
@@ -25,57 +40,62 @@ const courses = [
 const odlCourses = [
   {
     id: '2',
-    thumbnail:
-      'https://res.cloudinary.com/rennand/image/upload/v1644287125/hero-3_lc3x3v.png',
-    title: '1ª Série - Médio',
-    workload: '',
+    title: '2ª Série - Médio',
+    period: '',
   },
   {
     id: '3',
-    thumbnail:
-      'https://res.cloudinary.com/rennand/image/upload/v1644287143/hero-2_b0jmst.png',
-    title: 'Supermed ENEM',
-    workload: '',
+    title: '1ª Série - Médio',
+    period: '',
   },
 ];
 
 export function Courses(): JSX.Element {
+  const theme = useTheme();
+
   return (
-    <Container
-      contentContainerStyle={{ padding: 24 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <Content>
-        <Title>Cursos de 2022</Title>
+    <Container showsVerticalScrollIndicator={false}>
+      <CurrentCoursesContent>
+        <Title style={{ marginLeft: 4 }}>Cursos de 2022</Title>
 
-        {courses.map(course => (
-          <CourseCard style={shadow}>
-            <CourseThumbnail
-              resizeMode="cover"
-              source={{ uri: course.thumbnail }}
-            />
-            <CourseCardBody>
-              <CourseTitle>{course.title}</CourseTitle>
-            </CourseCardBody>
-          </CourseCard>
-        ))}
-      </Content>
+        <FlatList
+          data={courses}
+          keyExtractor={course => course.id}
+          horizontal
+          contentContainerStyle={{
+            paddingLeft: 4,
+            paddingVertical: 10,
+          }}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item: course }) => (
+            <CourseCard activeOpacity={0.7} style={shadow}>
+              <CourseThumbnail
+                resizeMode="cover"
+                source={{ uri: course.thumbnail }}
+              />
+              <CourseCardBody>
+                <CourseTitle>{course.title}</CourseTitle>
+              </CourseCardBody>
+            </CourseCard>
+          )}
+        />
+      </CurrentCoursesContent>
 
-      <Content>
-        <Title>Cursos de Anos Anteriores</Title>
+      <OldCoursesContent>
+        <Title>Cursos Anteriores</Title>
 
         {odlCourses.map(course => (
-          <CourseCard style={shadow}>
-            <CourseThumbnail
-              resizeMode="cover"
-              source={{ uri: course.thumbnail }}
-            />
-            <CourseCardBody>
-              <CourseTitle>{course.title}</CourseTitle>
-            </CourseCardBody>
-          </CourseCard>
+          <OldCourseItem style={shadow} key={course.id}>
+            <OldCoursesIcon>
+              <Feather name="bookmark" size={24} color={theme.colors.primary} />
+            </OldCoursesIcon>
+            <OldCourseTitle>
+              7º Ano Fundamental {'\n'}
+              <OldCoursePeriod>21/01/2021 à 15/12/2021</OldCoursePeriod>{' '}
+            </OldCourseTitle>
+          </OldCourseItem>
         ))}
-      </Content>
+      </OldCoursesContent>
     </Container>
   );
 }

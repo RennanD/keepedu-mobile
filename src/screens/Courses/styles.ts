@@ -5,8 +5,10 @@ export const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.colors.background_color};
 `;
 
-export const Content = styled.View`
-  margin-bottom: 20px;
+export const CurrentCoursesContent = styled.View`
+  padding: 24px 20px;
+  padding-right: 0;
+  padding-bottom: 4px;
 `;
 
 export const Title = styled.Text`
@@ -19,16 +21,16 @@ export const Title = styled.Text`
   `}
 `;
 
-export const CourseCard = styled.View`
-  width: 100%;
-  height: 250px;
+export const CourseCard = styled.TouchableOpacity`
+  width: 300px;
+  height: 230px;
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-right: 16px;
   background-color: ${({ theme }) => theme.colors.background_color};
 `;
 
 export const CourseThumbnail = styled.Image`
-  height: 200px;
+  height: 170px;
   width: 100%;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -36,6 +38,57 @@ export const CourseThumbnail = styled.Image`
 
 export const CourseCardBody = styled.View`
   padding: 20px;
+  justify-content: center;
 `;
 
-export const CourseTitle = styled.Text``;
+export const CourseTitle = styled.Text`
+  font-size: 16px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.text};
+    font-family: ${theme.fonts.medium};
+  `}
+`;
+
+export const OldCoursesContent = styled.View`
+  padding: 24px;
+`;
+
+export const OldCoursesIcon = styled.View`
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary_light};
+
+  border-radius: 8px;
+  margin-right: 16px;
+`;
+
+export const OldCourseItem = styled.TouchableOpacity`
+  width: 100%;
+  flex-direction: row;
+  background-color: ${({ theme }) => theme.colors.background_color};
+  padding: 20px;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 16px;
+`;
+
+export const OldCourseTitle = styled.Text`
+  font-size: 18px;
+  line-height: 24px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.text};
+    font-family: ${theme.fonts.medium};
+  `}
+`;
+
+export const OldCoursePeriod = styled.Text`
+  font-size: 14px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.placeholder};
+    font-family: ${theme.fonts.regular};
+  `}
+`;

@@ -2,6 +2,7 @@ export default {
   colors: {
     primary: '#0052CC',
     primary_bold: '#1C468A',
+    primary_light: '#cff4fc',
 
     text: '#000',
     label: '#666666',
@@ -11,7 +12,10 @@ export default {
     shape: '#F7F6F9',
 
     attention: '#FF595E',
+    attention_light: '#f8d7da',
+
     success: '#2ED573',
+    success_light: '#d1e7dd',
   },
 
   fonts: {
