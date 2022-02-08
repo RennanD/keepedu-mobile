@@ -9,10 +9,10 @@ export const Container = styled.View`
 export const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 24px;
+  padding: 0 24px;
   width: 100%;
   padding-top: ${getStatusBarHeight() + 40}px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 `;
 
 export const Avatar = styled.Image`
@@ -26,6 +26,7 @@ export const Avatar = styled.Image`
 export const Greetings = styled.Text`
   font-size: 22px;
   margin-bottom: 4px;
+  line-height: 22px;
 
   margin-left: 10px;
 
