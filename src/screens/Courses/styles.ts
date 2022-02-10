@@ -22,8 +22,7 @@ export const Title = styled.Text`
 `;
 
 export const CourseCard = styled.TouchableOpacity`
-  width: 300px;
-  height: 230px;
+  width: 340px;
   border-radius: 8px;
   margin-right: 16px;
   background-color: ${({ theme }) => theme.colors.background_color};
@@ -37,16 +36,39 @@ export const CourseThumbnail = styled.Image`
 `;
 
 export const CourseCardBody = styled.View`
-  padding: 20px;
+  padding: 16px;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const CourseIcon = styled.View`
+  padding: 10px;
+  align-items: center;
   justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary_light};
+
+  border-radius: 8px;
+  margin-right: 10px;
 `;
 
 export const CourseTitle = styled.Text`
+  flex: 1;
   font-size: 16px;
 
   ${({ theme }) => css`
     color: ${theme.colors.text};
     font-family: ${theme.fonts.medium};
+  `}
+`;
+
+export const CourseWorkload = styled.Text`
+  font-size: 14px;
+
+  line-height: 22px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.placeholder};
+    font-family: ${theme.fonts.regular};
   `}
 `;
 

@@ -17,23 +17,25 @@ import {
   OldCourseTitle,
   OldCoursePeriod,
   OldCoursesIcon,
+  CourseWorkload,
+  CourseIcon,
 } from './styles';
 
 const courses = [
   {
     id: '1',
     thumbnail:
-      'https://res.cloudinary.com/rennand/image/upload/v1644287143/hero-2_b0jmst.png',
+      'https://pensarstore.com.br/gestor/uploads/2d7425c268f9de943cf5128906e6f740.jpg',
     title: '3ª Série - Médio',
-    workload: '',
+    workload: '75 Horas',
   },
 
   {
     id: '2',
     thumbnail:
-      'https://res.cloudinary.com/rennand/image/upload/v1644287143/hero-2_b0jmst.png',
+      'https://pensarstore.com.br/gestor/uploads/494ba1828408309f3933cba96a10651c.jpg',
     title: 'Supermed Advanced',
-    workload: '',
+    workload: '75 Horas',
   },
 ];
 
@@ -41,12 +43,12 @@ const odlCourses = [
   {
     id: '2',
     title: '2ª Série - Médio',
-    period: '',
+    period: '21/01/2021 à 15/12/2021',
   },
   {
     id: '3',
     title: '1ª Série - Médio',
-    period: '',
+    period: '21/01/2020 à 15/12/2020',
   },
 ];
 
@@ -74,7 +76,18 @@ export function Courses(): JSX.Element {
                 source={{ uri: course.thumbnail }}
               />
               <CourseCardBody>
-                <CourseTitle>{course.title}</CourseTitle>
+                <CourseIcon>
+                  <Feather
+                    name="play-circle"
+                    size={24}
+                    color={theme.colors.primary}
+                  />
+                </CourseIcon>
+                <CourseTitle>
+                  {course.title}
+                  {'\n'}
+                  <CourseWorkload>{course.workload}</CourseWorkload>
+                </CourseTitle>
               </CourseCardBody>
             </CourseCard>
           )}
@@ -85,13 +98,13 @@ export function Courses(): JSX.Element {
         <Title>Cursos Anteriores</Title>
 
         {odlCourses.map(course => (
-          <OldCourseItem style={shadow} key={course.id}>
+          <OldCourseItem key={course.id} style={shadow}>
             <OldCoursesIcon>
               <Feather name="bookmark" size={24} color={theme.colors.primary} />
             </OldCoursesIcon>
             <OldCourseTitle>
-              7º Ano Fundamental {'\n'}
-              <OldCoursePeriod>21/01/2021 à 15/12/2021</OldCoursePeriod>{' '}
+              {course.title} {'\n'}
+              <OldCoursePeriod>{course.period}</OldCoursePeriod>{' '}
             </OldCourseTitle>
           </OldCourseItem>
         ))}

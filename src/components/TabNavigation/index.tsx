@@ -21,6 +21,7 @@ export function TabNavigation(): JSX.Element {
         tabBarStyle: {
           width: 350,
           alignSelf: 'flex-start',
+          backgroundColor: theme.colors.background_color,
         },
         tabBarContentContainerStyle: {
           alignItems: 'flex-start',
