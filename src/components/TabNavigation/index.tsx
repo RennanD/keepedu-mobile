@@ -1,8 +1,10 @@
 import React from 'react';
+import { View } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View } from 'react-native';
+
 import { useTheme } from 'styled-components';
+
 import { Courses } from '../../screens/Courses';
 
 // import { Container } from './styles';
@@ -37,7 +39,7 @@ export function TabNavigation(): JSX.Element {
         options={{
           tabBarLabel: 'Cursos',
         }}
-        name="Courses"
+        name="CoursesApp"
         component={Courses}
       />
       <Screen

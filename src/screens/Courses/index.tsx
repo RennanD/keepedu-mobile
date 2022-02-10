@@ -1,8 +1,11 @@
-import { Feather } from '@expo/vector-icons';
 import React from 'react';
-
 import { FlatList } from 'react-native';
+
+import { Feather } from '@expo/vector-icons';
+
 import { useTheme } from 'styled-components';
+
+import { useNavigation } from '@react-navigation/native';
 import shadow from '../../styles/shadow';
 import {
   Container,
@@ -23,18 +26,17 @@ import {
 
 const courses = [
   {
-    id: '1',
-    thumbnail:
-      'https://pensarstore.com.br/gestor/uploads/2d7425c268f9de943cf5128906e6f740.jpg',
-    title: '3ª Série - Médio',
-    workload: '75 Horas',
-  },
-
-  {
     id: '2',
     thumbnail:
-      'https://pensarstore.com.br/gestor/uploads/494ba1828408309f3933cba96a10651c.jpg',
-    title: 'Supermed Advanced',
+      'https://gestor.replayedu.com.br/assets/uploads/3e91a1b1f9611f7dda00e804cd914e41ce50c496200e3c823946a14fb238db48.png',
+    title: 'Turbinão Enem',
+    workload: '75 Horas',
+  },
+  {
+    id: '1',
+    thumbnail:
+      'https://gestor.replayedu.com.br/assets/uploads/6eea88132cb0dec7535ea0cb94b600f0f81013fc10006b9f768c9aba055286e5.png',
+    title: 'Med ENEM',
     workload: '75 Horas',
   },
 ];
@@ -55,6 +57,12 @@ const odlCourses = [
 export function Courses(): JSX.Element {
   const theme = useTheme();
 
+  const { navigate } = useNavigation();
+
+  function handleNavigate() {
+    navigate('Disciplines');
+  }
+
   return (
     <Container showsVerticalScrollIndicator={false}>
       <CurrentCoursesContent>
@@ -70,7 +78,11 @@ export function Courses(): JSX.Element {
           }}
           showsHorizontalScrollIndicator={false}
           renderItem={({ item: course }) => (
-            <CourseCard activeOpacity={0.7} style={shadow}>
+            <CourseCard
+              onPress={handleNavigate}
+              activeOpacity={0.7}
+              style={shadow}
+            >
               <CourseThumbnail
                 resizeMode="cover"
                 source={{ uri: course.thumbnail }}
