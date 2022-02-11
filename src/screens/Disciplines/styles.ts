@@ -9,18 +9,18 @@ export const Content = styled.ScrollView``;
 
 export const CourseThumbnail = styled.Image`
   width: 100%;
-  height: 250px;
+  height: 220px;
   border-radius: 16px;
 
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 `;
 
 export const CourseInfo = styled.View`
   flex-direction: row;
   align-items: center;
 
-  margin-bottom: 16px;
-  padding-bottom: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
 
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.colors.shape};
@@ -58,7 +58,7 @@ export const CoursePeriod = styled.Text`
 export const SectionTitle = styled.Text`
   font-size: 24px;
 
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 
   ${({ theme }) => css`
     color: ${theme.colors.label};
@@ -70,18 +70,38 @@ export const DisciplinesSection = styled.View`
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+export const DisciplineWrapper = styled.View`
+  width: 48%;
 `;
 
 export const DisciplineCard = styled.ImageBackground`
-  width: 48%;
-  height: 200px;
+  width: 100%;
+  height: 180px;
+
+  padding: 20px;
+
+  margin-bottom: 16px;
 `;
 
 export const DisciplineTitle = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
+
+  margin-bottom: 8px;
 
   ${({ theme }) => css`
     color: ${theme.colors.background_color};
     font-family: ${theme.fonts.bold};
+  `}
+`;
+
+export const DisciplineContents = styled.Text`
+  font-size: 14px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.background_color};
+    font-family: ${theme.fonts.medium};
   `}
 `;
