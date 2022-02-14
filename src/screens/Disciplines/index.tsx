@@ -9,6 +9,7 @@ import {
   Container,
   Content,
   CourseThumbnail,
+  CourseDescription,
   CourseInfo,
   CourseSchoolYear,
   CoursePeriod,
@@ -78,8 +79,16 @@ export function Disciplines(): JSX.Element {
       <Content
         contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       >
         <CourseThumbnail source={{ uri: course.thumbnail }} />
+
+        <CourseDescription>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
+          officia voluptas totam at sunt. Impedit tempora consequuntur aperiam
+          error expedita dicta, cum ipsa alias minus nostrum quibusdam autem
+          explicabo nihil.
+        </CourseDescription>
 
         <CourseInfo>
           <CourseIcon>

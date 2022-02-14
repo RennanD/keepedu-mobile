@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { Feather } from '@expo/vector-icons';
@@ -23,38 +23,32 @@ import {
   CourseWorkload,
   CourseIcon,
 } from './styles';
+import { api } from '../../services/api';
+import { formatDate } from '../../utils/formatDate';
+import { EmptyList } from '../../components/EmptyList';
 
-const courses = [
-  {
-    id: '2',
-    thumbnail:
-      'https://gestor.replayedu.com.br/assets/uploads/3e91a1b1f9611f7dda00e804cd914e41ce50c496200e3c823946a14fb238db48.png',
-    title: 'Turbinão Enem',
-    workload: '75 Horas',
-  },
-  {
-    id: '1',
-    thumbnail:
-      'https://gestor.replayedu.com.br/assets/uploads/6eea88132cb0dec7535ea0cb94b600f0f81013fc10006b9f768c9aba055286e5.png',
-    title: 'Med ENEM',
-    workload: '75 Horas',
-  },
-];
+type CoursePeriod = {
+  id: string;
+  start_date: Date;
+  end_date: Date;
+  expired: boolean;
+  workload?: string;
+  formmatedPeriod?: string;
+  course: {
+    id: string;
+    title: string;
+    thumbnail?: string;
+  };
+};
 
-const odlCourses = [
-  {
-    id: '2',
-    title: '2ª Série - Médio',
-    period: '21/01/2021 à 15/12/2021',
-  },
-  {
-    id: '3',
-    title: '1ª Série - Médio',
-    period: '21/01/2020 à 15/12/2020',
-  },
-];
+type AxiosResponse = {
+  course_periods: CoursePeriod[];
+};
 
 export function Courses(): JSX.Element {
+  const [currentCourses, setCurrentCourses] = useState<CoursePeriod[]>([]);
+  const [expiredCourses, setExpiredCourses] = useState<CoursePeriod[]>([]);
+
   const theme = useTheme();
 
   const { navigate } = useNavigation();
@@ -63,63 +57,112 @@ export function Courses(): JSX.Element {
     navigate('Disciplines');
   }
 
+  useEffect(() => {
+    async function loadCoursePeriods() {
+      const response = await api.get<AxiosResponse>('/students/profile');
+
+      const { course_periods } = response.data;
+
+      setCurrentCourses(
+        course_periods.filter(coursePeriod => !coursePeriod.expired),
+      );
+
+      setExpiredCourses(
+        course_periods
+          .filter(coursePeriod => coursePeriod.expired)
+          .map(coursePeriod => ({
+            ...coursePeriod,
+            formmatedPeriod: `${formatDate(
+              coursePeriod.start_date,
+              'dd/MM/yyyy',
+            )} à ${formatDate(coursePeriod.end_date, 'dd/MM/yyyy')}`,
+          })),
+      );
+    }
+    loadCoursePeriods();
+  }, []);
+
   return (
     <Container showsVerticalScrollIndicator={false}>
       <CurrentCoursesContent>
-        <Title style={{ marginLeft: 4 }}>Cursos de 2022</Title>
+        <Title style={{ marginLeft: 4 }}>Cursos atuais</Title>
 
-        <FlatList
-          data={courses}
-          keyExtractor={course => course.id}
-          horizontal
-          contentContainerStyle={{
-            paddingLeft: 4,
-            paddingVertical: 10,
-          }}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item: course }) => (
-            <CourseCard
-              onPress={handleNavigate}
-              activeOpacity={0.7}
-              style={shadow}
-            >
-              <CourseThumbnail
-                resizeMode="cover"
-                source={{ uri: course.thumbnail }}
-              />
-              <CourseCardBody>
-                <CourseIcon>
-                  <Feather
-                    name="play-circle"
-                    size={24}
-                    color={theme.colors.primary}
-                  />
-                </CourseIcon>
-                <CourseTitle>
-                  {course.title}
-                  {'\n'}
-                  <CourseWorkload>{course.workload}</CourseWorkload>
-                </CourseTitle>
-              </CourseCardBody>
-            </CourseCard>
-          )}
-        />
+        {currentCourses.length ? (
+          <FlatList
+            data={currentCourses}
+            keyExtractor={coursePeriod => coursePeriod.id}
+            horizontal
+            bounces={false}
+            contentContainerStyle={{
+              paddingLeft: 4,
+              paddingVertical: 10,
+            }}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item: coursePeriod }) => (
+              <CourseCard
+                onPress={handleNavigate}
+                activeOpacity={0.7}
+                style={[
+                  shadow,
+                  { minWidth: currentCourses.length === 1 && 365 },
+                ]}
+              >
+                <CourseThumbnail
+                  resizeMode="cover"
+                  source={{
+                    uri:
+                      coursePeriod.course.thumbnail ||
+                      'https://res.cloudinary.com/rennand/image/upload/v1644287125/hero-3_lc3x3v.png',
+                  }}
+                />
+                <CourseCardBody>
+                  <CourseIcon>
+                    <Feather
+                      name="play-circle"
+                      size={24}
+                      color={theme.colors.primary}
+                    />
+                  </CourseIcon>
+                  <CourseTitle>
+                    {coursePeriod.course.title}
+                    {'\n'}
+                    <CourseWorkload>{coursePeriod.workload}</CourseWorkload>
+                  </CourseTitle>
+                </CourseCardBody>
+              </CourseCard>
+            )}
+          />
+        ) : (
+          <EmptyList message="Você não está em nenhum curso no período atual" />
+        )}
       </CurrentCoursesContent>
 
       <OldCoursesContent>
         <Title>Cursos Anteriores</Title>
 
-        {odlCourses.map(course => (
-          <OldCourseItem key={course.id} style={shadow}>
-            <OldCoursesIcon>
-              <Feather name="bookmark" size={24} color={theme.colors.primary} />
-            </OldCoursesIcon>
-            <OldCourseTitle>
-              {course.title} {'\n'}
-              <OldCoursePeriod>{course.period}</OldCoursePeriod>{' '}
-            </OldCourseTitle>
-          </OldCourseItem>
-        ))}
+        {expiredCourses.length ? (
+          <>
+            {expiredCourses.map(coursePeriod => (
+              <OldCourseItem key={coursePeriod.id} style={shadow}>
+                <OldCoursesIcon>
+                  <Feather
+                    name="bookmark"
+                    size={24}
+                    color={theme.colors.primary}
+                  />
+                </OldCoursesIcon>
+                <OldCourseTitle>
+                  {coursePeriod.course.title} {'\n'}
+                  <OldCoursePeriod>
+                    {coursePeriod.formmatedPeriod}
+                  </OldCoursePeriod>{' '}
+                </OldCourseTitle>
+              </OldCourseItem>
+            ))}
+          </>
+        ) : (
+          <EmptyList message="Você não possúi cursos anteiores" />
+        )}
       </OldCoursesContent>
     </Container>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from '../services/api';
 
 interface SignInData {
   email: string;
@@ -32,13 +33,20 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const [loadingUser, setLoadingUser] = useState(true);
 
   async function handleSingIn(data: SignInData) {
+    const { email } = data;
+
+    const app_tenant = '2ca5d6dc-a2fe-11eb-bcbc-0242ac130002';
+
     const userData = {
-      email: data.email,
-      app_tenant: '2ca5d6dc-a2fe-11eb-bcbc-0242ac130002',
+      email,
+      app_tenant,
       avatar:
         'https://objetivopi.keepedu.com.br/aluno/uploads/objreplay/imagens/ac32c5d2d2bd0351d686db09a6450801.jpeg',
       name: 'Rennan Oliveira',
     };
+
+    api.defaults.headers.common.api_key =
+      'cmVubmFuLnRlc3RlQGVtYWlsLmNvbTtzdHVkZW50OzJjYTVkNmRjLWEyZmUtMTFlYi1iY2JjLTAyNDJhYzEzMDAwMg==';
 
     setUser(userData);
     await AsyncStorage.setItem('@keepedu:user', JSON.stringify(userData));
@@ -55,6 +63,11 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       const loggedUser = await AsyncStorage.getItem('@keepedu:user');
 
       const parsedUser = loggedUser ? JSON.parse(loggedUser) : ({} as UserData);
+
+      if (parsedUser.email) {
+        api.defaults.headers.common.api_key =
+          'cmVubmFuLnRlc3RlQGVtYWlsLmNvbTtzdHVkZW50OzJjYTVkNmRjLWEyZmUtMTFlYi1iY2JjLTAyNDJhYzEzMDAwMg==';
+      }
 
       setUser(parsedUser);
 

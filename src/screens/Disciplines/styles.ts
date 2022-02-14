@@ -15,6 +15,17 @@ export const CourseThumbnail = styled.Image`
   margin-bottom: 32px;
 `;
 
+export const CourseDescription = styled.Text`
+  font-size: 14px;
+
+  margin-bottom: 24px;
+
+  ${({ theme }) => css`
+    color: ${theme.colors.label};
+    font-family: ${theme.fonts.regular};
+  `}
+`;
+
 export const CourseInfo = styled.View`
   flex-direction: row;
   align-items: center;

@@ -9,6 +9,7 @@ export const CurrentCoursesContent = styled.View`
   padding: 24px 20px;
   padding-right: 0;
   padding-bottom: 4px;
+  flex: 1;
 `;
 
 export const Title = styled.Text`
@@ -74,6 +75,7 @@ export const CourseWorkload = styled.Text`
 
 export const OldCoursesContent = styled.View`
   padding: 24px;
+  flex: 1;
 `;
 
 export const OldCoursesIcon = styled.View`
