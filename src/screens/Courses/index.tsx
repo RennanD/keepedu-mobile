@@ -53,8 +53,11 @@ export function Courses(): JSX.Element {
 
   const { navigate } = useNavigation();
 
-  function handleNavigate() {
-    navigate('Disciplines');
+  function handleShowCoursePeriod(
+    course_period_id: string,
+    course_title: string,
+  ) {
+    navigate('Disciplines', { course_period_id, course_title });
   }
 
   useEffect(() => {
@@ -100,7 +103,12 @@ export function Courses(): JSX.Element {
             showsHorizontalScrollIndicator={false}
             renderItem={({ item: coursePeriod }) => (
               <CourseCard
-                onPress={handleNavigate}
+                onPress={() =>
+                  handleShowCoursePeriod(
+                    coursePeriod.id,
+                    coursePeriod.course.title,
+                  )
+                }
                 activeOpacity={0.7}
                 style={[
                   shadow,

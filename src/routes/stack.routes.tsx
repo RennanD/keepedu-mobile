@@ -10,7 +10,10 @@ declare global {
   namespace ReactNavigation {
     interface RootParamList {
       Courses: undefined;
-      Disciplines: undefined;
+      Disciplines: {
+        course_period_id: string;
+        course_title: string;
+      };
     }
   }
 }

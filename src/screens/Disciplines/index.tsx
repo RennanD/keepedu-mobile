@@ -1,9 +1,12 @@
 import { Feather } from '@expo/vector-icons';
-import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components';
 
 import { ScreenHeader } from '../../components/ScreenHeader';
+import { api } from '../../services/api';
+import { formatDate } from '../../utils/formatDate';
 
 import {
   Container,
@@ -19,136 +22,171 @@ import {
   DisciplineCard,
   DisciplineTitle,
   CourseIcon,
-  DisciplineContents,
 } from './styles';
 
-const course = {
-  title: 'Turbinão Enem',
-  thumbnail:
-    'https://gestor.replayedu.com.br/assets/uploads/3e91a1b1f9611f7dda00e804cd914e41ce50c496200e3c823946a14fb238db48.png',
+type RouteParams = {
+  course_period_id: string;
+  course_title: string;
+};
 
-  school_year: 2222,
-  period: '21/02/2022 à 10/11/2022',
+type CourseDiscipline = {
+  id: string;
+  discipline: {
+    title: string;
+    thumbnail: string;
+  };
+};
 
-  disciplines: [
-    {
-      id: '1',
-      title: 'Matemática',
-      count_contents: '8',
-      thumbnail:
-        'https://res.cloudinary.com/rennand/image/upload/v1644544663/matem%C3%A1tica_whjym7.png',
-    },
-    {
-      id: '2',
-      title: 'Química',
-      count_contents: '5',
-      thumbnail:
-        'https://res.cloudinary.com/rennand/image/upload/v1644544663/qu%C3%ADmica_b9vnms.png',
-    },
-    {
-      id: '3',
-      title: 'Biologia',
-      count_contents: '10',
-      thumbnail:
-        'https://res.cloudinary.com/rennand/image/upload/v1644544662/biologia_zxviie.png',
-    },
-    {
-      id: '4',
-      title: 'Inglês',
-      count_contents: '4',
-      thumbnail:
-        'https://res.cloudinary.com/rennand/image/upload/v1644544662/Ingl%C3%AAs_pvvznz.png',
-    },
-    {
-      id: '5',
-      title: 'Geografia',
-      count_contents: '7',
-      thumbnail:
-        'https://res.cloudinary.com/rennand/image/upload/v1644544662/geografia_zoby1i.png',
-    },
-  ],
+type CoursePeriodProps = {
+  start_date: Date;
+  end_date: Date;
+  school_year: number;
+  formattedPeriod: string;
+  course: {
+    description?: string;
+    thumbnail?: string;
+  };
+  course_disciplines: CourseDiscipline[];
+};
+
+type AxiosResponse = {
+  period_course: CoursePeriodProps;
 };
 
 export function Disciplines(): JSX.Element {
+  const [coursePeriod, setCoursePeriod] = useState<CoursePeriodProps>(
+    {} as CoursePeriodProps,
+  );
+
   const theme = useTheme();
+
+  const { params } = useRoute();
+
+  const { course_period_id, course_title } = params as RouteParams;
+
+  useEffect(() => {
+    async function loadCoursePeriod() {
+      const response = await api.get<AxiosResponse>(
+        `/courses/periods/${course_period_id}`,
+      );
+
+      const { period_course } = response.data;
+
+      setCoursePeriod({
+        ...period_course,
+        formattedPeriod: `${formatDate(
+          period_course.start_date,
+          'dd/MM/yyyy',
+        )} à ${formatDate(period_course.end_date, 'dd/MM/yyyy')}`,
+      });
+    }
+
+    loadCoursePeriod();
+  }, [course_period_id]);
 
   return (
     <Container>
-      <ScreenHeader title={course.title} />
+      <ScreenHeader title={course_title} />
 
-      <Content
-        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-      >
-        <CourseThumbnail source={{ uri: course.thumbnail }} />
+      {coursePeriod.school_year ? (
+        <Content
+          contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <CourseThumbnail
+            source={{
+              uri:
+                coursePeriod.course.thumbnail ||
+                'https://res.cloudinary.com/rennand/image/upload/v1644287125/hero-3_lc3x3v.png',
+            }}
+          />
 
-        <CourseDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-          officia voluptas totam at sunt. Impedit tempora consequuntur aperiam
-          error expedita dicta, cum ipsa alias minus nostrum quibusdam autem
-          explicabo nihil.
-        </CourseDescription>
+          <CourseDescription>
+            {coursePeriod.course.description}
+          </CourseDescription>
 
-        <CourseInfo>
-          <CourseIcon>
-            <Feather name="calendar" size={20} color={theme.colors.primary} />
-          </CourseIcon>
-          <CourseSchoolYear>
-            Período Letivo 2022{'\n'}
-            <CoursePeriod>21/02/2022 à 10/11/2022</CoursePeriod>
-          </CourseSchoolYear>
-        </CourseInfo>
+          <CourseInfo>
+            <CourseIcon>
+              <Feather name="calendar" size={20} color={theme.colors.primary} />
+            </CourseIcon>
+            <CourseSchoolYear>
+              Período Letivo {coursePeriod.school_year}
+              {'\n'}
+              <CoursePeriod>{coursePeriod.formattedPeriod}</CoursePeriod>
+            </CourseSchoolYear>
+          </CourseInfo>
 
-        <SectionTitle>Disciplinas</SectionTitle>
-        <DisciplinesSection>
-          <DisciplineWrapper>
-            {course.disciplines.map(
-              (discipline, index) =>
-                index % 2 === 0 && (
-                  <TouchableOpacity activeOpacity={0.7} key={discipline.id}>
-                    <DisciplineCard
-                      borderRadius={8}
-                      source={{ uri: discipline.thumbnail }}
-                      resizeMode="cover"
-                      style={{
-                        height: index % 2 === 0 && 180,
-                      }}
+          <SectionTitle>Disciplinas</SectionTitle>
+          <DisciplinesSection>
+            <DisciplineWrapper
+              style={{
+                width:
+                  coursePeriod.course_disciplines.length === 1 ? '100%' : '48%',
+              }}
+            >
+              {coursePeriod.course_disciplines.map(
+                (courseDiscipline, index) =>
+                  index % 2 === 0 && (
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      key={courseDiscipline.id}
                     >
-                      <DisciplineTitle>{discipline.title}</DisciplineTitle>
-                      <DisciplineContents>
+                      <DisciplineCard
+                        borderRadius={8}
+                        source={{ uri: courseDiscipline.discipline.thumbnail }}
+                        resizeMode="cover"
+                        style={{
+                          height: index % 2 === 0 && 180,
+                        }}
+                      >
+                        <DisciplineTitle>
+                          {courseDiscipline.discipline.title}
+                        </DisciplineTitle>
+                        {/* <DisciplineContents>
                         {discipline.count_contents} Conteúdos
-                      </DisciplineContents>
-                    </DisciplineCard>
-                  </TouchableOpacity>
-                ),
-            )}
-          </DisciplineWrapper>
+                      </DisciplineContents> */}
+                      </DisciplineCard>
+                    </TouchableOpacity>
+                  ),
+              )}
+            </DisciplineWrapper>
 
-          <DisciplineWrapper>
-            {course.disciplines.map(
-              (discipline, index) =>
-                index % 2 === 1 && (
-                  <TouchableOpacity activeOpacity={0.7} key={discipline.id}>
-                    <DisciplineCard
-                      borderRadius={8}
-                      source={{ uri: discipline.thumbnail }}
-                      resizeMode="cover"
-                      style={{
-                        height: index % 2 === 1 && 200,
-                      }}
-                    >
-                      <DisciplineTitle>{discipline.title}</DisciplineTitle>
-                      <DisciplineContents>
+            {coursePeriod.course_disciplines.length > 1 && (
+              <DisciplineWrapper>
+                {coursePeriod.course_disciplines.map(
+                  (courseDiscipline, index) =>
+                    index % 2 === 1 && (
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        key={courseDiscipline.id}
+                      >
+                        <DisciplineCard
+                          borderRadius={8}
+                          source={{
+                            uri: courseDiscipline.discipline.thumbnail,
+                          }}
+                          resizeMode="cover"
+                          style={{
+                            height: index % 2 === 1 && 200,
+                          }}
+                        >
+                          <DisciplineTitle>
+                            {courseDiscipline.discipline.title}
+                          </DisciplineTitle>
+                          {/* <DisciplineContents>
                         {discipline.count_contents} Conteúdos
-                      </DisciplineContents>
-                    </DisciplineCard>
-                  </TouchableOpacity>
-                ),
+                      </DisciplineContents> */}
+                        </DisciplineCard>
+                      </TouchableOpacity>
+                    ),
+                )}
+              </DisciplineWrapper>
             )}
-          </DisciplineWrapper>
-        </DisciplinesSection>
-      </Content>
+          </DisciplinesSection>
+        </Content>
+      ) : (
+        <ActivityIndicator size="large" />
+      )}
     </Container>
   );
 }
