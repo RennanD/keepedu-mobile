@@ -1,4 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { Contents } from '../screens/Contents';
 
 import { Disciplines } from '../screens/Disciplines';
 
@@ -14,6 +15,10 @@ declare global {
         course_period_id: string;
         course_title: string;
       };
+      Contents: {
+        course_discipline_id: string;
+        discipline_title: string;
+      };
     }
   }
 }
@@ -27,6 +32,7 @@ export function StackRoutes(): JSX.Element {
     >
       <Screen name="HomeStack" component={Home} />
       <Screen name="Disciplines" component={Disciplines} />
+      <Screen name="Contents" component={Contents} />
     </Navigator>
   );
 }

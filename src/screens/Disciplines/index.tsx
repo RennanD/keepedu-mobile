@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useTheme } from 'styled-components';
@@ -59,10 +59,17 @@ export function Disciplines(): JSX.Element {
   );
 
   const theme = useTheme();
-
+  const navigation = useNavigation();
   const { params } = useRoute();
 
   const { course_period_id, course_title } = params as RouteParams;
+
+  function handleShowCourseDiscipline(
+    course_discipline_id: string,
+    discipline_title: string,
+  ) {
+    navigation.navigate('Contents', { course_discipline_id, discipline_title });
+  }
 
   useEffect(() => {
     async function loadCoursePeriod() {
@@ -130,6 +137,12 @@ export function Disciplines(): JSX.Element {
                     <TouchableOpacity
                       activeOpacity={0.7}
                       key={courseDiscipline.id}
+                      onPress={() =>
+                        handleShowCourseDiscipline(
+                          courseDiscipline.id,
+                          courseDiscipline.discipline.title,
+                        )
+                      }
                     >
                       <DisciplineCard
                         borderRadius={8}
@@ -159,6 +172,12 @@ export function Disciplines(): JSX.Element {
                       <TouchableOpacity
                         activeOpacity={0.7}
                         key={courseDiscipline.id}
+                        onPress={() =>
+                          handleShowCourseDiscipline(
+                            courseDiscipline.id,
+                            courseDiscipline.discipline.title,
+                          )
+                        }
                       >
                         <DisciplineCard
                           borderRadius={8}
