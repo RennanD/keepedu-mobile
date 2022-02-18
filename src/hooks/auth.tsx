@@ -46,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     };
 
     api.defaults.headers.common.api_key =
-      'cmVubmFuLnRlc3RlQGVtYWlsLmNvbTtzdHVkZW50OzJjYTVkNmRjLWEyZmUtMTFlYi1iY2JjLTAyNDJhYzEzMDAwMg==';
+      'cmVubmFuLmRvdWdsYXNAb2JqZXRpdm9waS5jb20uYnI7c3R1ZGVudDsyY2E1ZDZkYy1hMmZlLTExZWItYmNiYy0wMjQyYWMxMzAwMDI7MDMwZjZhYWY2YmI1NDRlN2FiZDlmZTRhNDhhMzkxOTViNTIyYjk3OA==';
 
     setUser(userData);
     await AsyncStorage.setItem('@keepedu:user', JSON.stringify(userData));
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
       if (parsedUser.email) {
         api.defaults.headers.common.api_key =
-          'cmVubmFuLnRlc3RlQGVtYWlsLmNvbTtzdHVkZW50OzJjYTVkNmRjLWEyZmUtMTFlYi1iY2JjLTAyNDJhYzEzMDAwMg==';
+          'cmVubmFuLmRvdWdsYXNAb2JqZXRpdm9waS5jb20uYnI7c3R1ZGVudDsyY2E1ZDZkYy1hMmZlLTExZWItYmNiYy0wMjQyYWMxMzAwMDI7MDMwZjZhYWY2YmI1NDRlN2FiZDlmZTRhNDhhMzkxOTViNTIyYjk3OA==';
       }
 
       setUser(parsedUser);
