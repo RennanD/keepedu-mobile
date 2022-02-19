@@ -8,7 +8,7 @@ export const Container = styled.View`
   width: 100%;
   padding-top: ${getStatusBarHeight() + 40}px;
 
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 
   justify-content: center;
   position: relative;

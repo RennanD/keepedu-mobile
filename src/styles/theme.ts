@@ -7,6 +7,7 @@ export default {
     text: '#000',
     label: '#666666',
     placeholder: '#999',
+    border: '#ddd',
 
     background_color: '#fff',
     shape: '#F7F6F9',

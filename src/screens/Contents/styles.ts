@@ -33,7 +33,7 @@ export const DisciplineTitle = styled.Text`
 
 export const Content = styled.View`
   flex: 1;
-  padding: 24px;
+  padding: 0 24px;
   padding-right: 20px;
   padding-left: 10px;
   padding-bottom: 0;
