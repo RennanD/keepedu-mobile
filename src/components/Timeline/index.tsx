@@ -25,9 +25,10 @@ type DataListProps = {
 
 export type TimelineProps = {
   data: DataListProps[];
+  onSelectItem: (item_id: string) => void;
 };
 
-export function Timeline({ data }: TimelineProps): JSX.Element {
+export function Timeline({ data, onSelectItem }: TimelineProps): JSX.Element {
   const lastIndex = data.length - 1;
 
   const theme = useTheme();
@@ -43,7 +44,7 @@ export function Timeline({ data }: TimelineProps): JSX.Element {
         <TimelineItem>
           <TimelineIndicator />
           <TimelineCardContainer isLastItem={index === lastIndex}>
-            <TimelineCard style={shadow}>
+            <TimelineCard onPress={() => onSelectItem(item.id)} style={shadow}>
               <TimelineCardIconContainer>
                 <Feather
                   name={item.icon || 'book'}

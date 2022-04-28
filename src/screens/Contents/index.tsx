@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { ScreenHeader } from '../../components/ScreenHeader';
 import { api } from '../../services/api';
@@ -49,8 +49,13 @@ export function Contents(): JSX.Element {
     useState<CourseDisciplineProps>({} as CourseDisciplineProps);
 
   const { params } = useRoute();
+  const navigation = useNavigation();
 
   const { discipline_title, course_discipline_id } = params as RouteParams;
+
+  function handleShowContent(content_id: string) {
+    navigation.navigate('Classes', { content_id });
+  }
 
   useEffect(() => {
     async function loadCourseDiscipline() {
@@ -89,7 +94,10 @@ export function Contents(): JSX.Element {
               <DisciplineTitle>{discipline_title}</DisciplineTitle>
             </Thumbnail>
           </ThumbnailContent>
-          <Timeline data={courseDiscipline.contents} />
+          <Timeline
+            onSelectItem={handleShowContent}
+            data={courseDiscipline.contents}
+          />
         </Content>
       )}
     </Container>
